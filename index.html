@@ -13,11 +13,26 @@
         <h3>Assignment 6 &laquo; Data Visualization Dashboard &raquo;</h3>
     </div>
     <!--  We included a basic HTML structure for the 3 graphs here. Feel free to change this if you'd like  -->
+    <div class="row ">
+        <div class="col-lg-6">
+            <button type="button" class="btn btn-info" onclick="setGraph1('TV')">TV</button>
+            <button type="button" class="btn btn-info" onclick="setGraph1('Movie')">Movie</button>
+            <div id="graph1"></div>
+        </div>
+    </div><br/><br/>
     <div class="row">
         <div class="col-lg-6">
-            <div id="graph1"></div>
+            <button type="button" class="btn btn-info" onclick="setGraph2('TV Show')">TV</button>
+            <button type="button" class="btn btn-info" onclick="setGraph2('Movie')">Movie</button>
+            <button type="button" class="btn btn-info" onclick="changeRuntimeNum(0)">Up!</button>
+            <button type="button" class="btn btn-info" onclick="changeRuntimeNum(1)">Down!</button>
+            <label for="yearinput">Take me to year:</label>
+            <input type="text" id="yearinput" name="yearinput">
+            <button type="button" class="btn btn-info" onclick="setYear()">Go!</button>
             <div id="graph2"></div><br/>
         </div>
+    </div><br/><br/>
+    <div class="row">
         <div class="col-lg-6">
             <div id="graph3"></div>
         </div>
