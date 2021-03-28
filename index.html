@@ -7,21 +7,21 @@
         <link rel="stylesheet" href="main.css"/>
         <!--Feel free to add more CSS files as needed-->
         <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+
     </head>
 <body>
-    <div class="header">
+    <div class="header ">
         <h3>Assignment 6 &laquo; Data Visualization Dashboard &raquo;</h3>
     </div>
     <!--  We included a basic HTML structure for the 3 graphs here. Feel free to change this if you'd like  -->
-    <div class="row ">
-        <div class="col-lg-6">
+    <div class="row center text-center">
             <button type="button" class="btn btn-info" onclick="setGraph1('TV')">TV</button>
-            <button type="button" class="btn btn-info" onclick="setGraph1('Movie')">Movie</button>
+            <button type="button" class="btn btn-info" onclick="setGraph1('Movie')">Movie</button> Tip: try hovering over a bar with your cursor
             <div id="graph1"></div>
-        </div>
-    </div><br/><br/>
-    <div class="row">
-        <div class="col-lg-6">
+    </div>
+   <hr/>
+
+    <div class="row text-center">
             <button type="button" class="btn btn-info" onclick="setGraph2('TV Show')">TV</button>
             <button type="button" class="btn btn-info" onclick="setGraph2('Movie')">Movie</button>
             <button type="button" class="btn btn-info" onclick="changeRuntimeNum(0)">Up!</button>
@@ -29,14 +29,63 @@
             <label for="yearinput">Take me to year:</label>
             <input type="text" id="yearinput" name="yearinput">
             <button type="button" class="btn btn-info" onclick="setYear()">Go!</button>
+            Tip: try hovering over a bar with your cursor
             <div id="graph2"></div><br/>
-        </div>
-    </div><br/><br/>
-    <div class="row">
-        <div class="col-lg-6">
+    </div>
+       <hr/>
+
+    <div class="row text-center">
+        <h4>Actor network!</h4>
+        Nodes represent actors, edges represent whether they've acted in a movie together.  Try hovering over a node!
+
+                <div class="col-md-3">
+Please limit the number of nodes by filtering the titles considered: <br>
+<label for="genre">Genre:</label>
+
+<select name="genre" id="genre">
+  <option value="all">All</option>
+</select>
+<br>
+<label for="country">Country:</label>
+
+<select name="country" id="country">
+  <option value="all" selected > All </option>
+</select>
+<br>
+<label for="year">Only show me things made after:</label>
+
+<input type="number" id="year" name="year"
+       min="1942" max="2020" value="2000">
+<br>
+<label for="cap">Cap on number of titles to consider:</label>
+
+<input type="number" id="cap" name="cap"
+       min="10" max="500" value="50">
+<br>
+
+            <button type="button" class="btn btn-info" onclick="setGraph3()">Update the graph!</button> <br>
+           
+                 </div>
+        <div class="col-md-4">
             <div id="graph3"></div>
         </div>
+        <div class="col-md-4">
+          </div>
     </div>
+    <hr>
+    <div class="row text-center">
+        <h4> Describe how your dashboard answers the questions presented</h4>
+                hi
+        <h4> List 3 reasons why D3 was helpful and improved your visualization</h4>
+                hi
+        <h4> List 3 reasons why D3 would not be the best tool for creating a visualization </h4>
+                hi
+        <h4> Evaluate the accessibility of your dashboard </h4>
+                hi
+        <h4> Reflect on the stages of your design and implementation process when you could have taken steps to make your dashboard more accessible to all audiences </h4>
+                hi
+    </div>
+    <hr/>
     <!--Feel free to add more JavaScript files as needed-->
     <script type="text/javascript" src="main.js"></script>
 </body>

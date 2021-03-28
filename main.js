@@ -13,7 +13,7 @@ current_type = "Movie"
 // let graph_3_width = MAX_WIDTH / 2, graph_3_height = 575;
 let graph_1_width = (MAX_WIDTH / 2) - 10, graph_1_height = 400;
 let graph_2_width = (MAX_WIDTH / 2) - 10, graph_2_height = 400;
-let graph_3_width = (MAX_WIDTH / 2) - 10, graph_3_height = 400;
+let graph_3_width = 700, graph_3_height = 700;
 
 
 // Setup for Graph 1
@@ -101,6 +101,7 @@ function setGraph1(type) {
 		}
 	    counts.sort((x,y) => y.count - x.count)
 
+
 		let color = d3.scaleOrdinal()
 	        .domain(counts.map(d => d.genre))
 	        .range(d3.quantize(d3.interpolateHcl("#66a0e2", "#81c2c3"), counts.length));
@@ -119,8 +120,8 @@ function setGraph1(type) {
                     including ${top3[1]}, ${top3[2]}, ${top3[3]} </span>`; 
 
             tooltip.html(html)
-                .style("left", `${(d3.event.pageX) + 100}px`)
-                .style("top", `${(d3.event.pageY) - 100}px`)
+                .style("left", `${(d3.event.pageX) + 50}px`)
+                .style("top", `${(d3.event.pageY) - 10}px`)
                 .style("box-shadow", `2px 2px 5px ${color(d.genre)}`) 
                 .transition()
                 .duration(200)
@@ -260,8 +261,8 @@ function setGraph2(type) {
                     ${color_span} in the year ${d.year}</span>`; 
 
             tooltip.html(html)
-                .style("left", `${(d3.event.pageX) + 100}px`)
-                .style("top", `${(d3.event.pageY) - 100}px`)
+                .style("left", `${(d3.event.pageX) + 50}px`)
+                .style("top", `${(d3.event.pageY) - 10}px`)
                 .style("box-shadow", `2px 2px 5px ${color(d.year)}`) 
                 .transition()
                 .duration(200)
@@ -315,33 +316,61 @@ let svg3 = d3.select("#graph3")
     .attr("width", graph_3_width)     
     .attr("height", graph_3_height)     
     .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);  
-
-let graph3_label = svg3.append("text")
-    .attr("transform", `translate(${(graph_3_width - margin.left - margin.right) / 2}, ${-20})`)  
-    .style("text-anchor", "middle")
-    .style("font-size", 15)
-    .text("Actor Network")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
     
-
-var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody().strength(-400))
-    .force("center", d3.forceCenter(graph_3_width / 2, graph_3_height / 2));
-
 
 let tooltip3 = d3.select("#graph3")
     .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
+
+function makeLonger(str){
+    str =  str.length == 1 ? "0" + str : str;
+}
+
+function randomNegative(limit){
+    random = Math.random()
+    posOrNeg = random <= 0.5 ? -1 : 1
+    return Math.floor(Math.random()*limit) * posOrNeg
+}
+
+function randomBlue(){
+    redVal = (102 + randomNegative(70)).toString(16)
+    makeLonger(redVal)
+    greenVal =  (160 + randomNegative(70)).toString(16)
+    makeLonger(greenVal)
+    blueVal =  (226 + randomNegative(25)).toString(16)
+    makeLonger(blueVal)
+    console.log("#" + redVal + greenVal + blueVal)
+
+    return "#" + redVal + greenVal + blueVal
+}
 // End Setup for Graph 3
 
 function setGraph3() {
 	d3.csv("../data/netflix.csv").then(function(data) {
+
+    svg3.selectAll("circle").remove();
+    svg3.selectAll("line").remove();
+
+        start_year = document.getElementById("year").value
+        genre = document.getElementById("genre").value
+        country = document.getElementById("country").value
+        cap = document.getElementById("cap").value
+        if(start_year != "all"){
+           data = data.filter(x =>  parseInt(x.release_year) >= parseInt(start_year))
+        }
+        if(genre != "all"){
+            data = data.filter( x => (x.listed_in.split(",").map(x => x.trim())).includes(genre))
+        }
+        if(country != "all"){
+            data = data.filter( x => (x.country.split(",").map(x => x.trim())).includes(country))
+        }
+
+		data = data.slice(0,parseInt(cap))
 		last_used_id = 0
 		id_map = {}
 		actor_links = []
-		data = data.slice(0,10)
 		data.map(function(e) { 
 			actors_in_mov = (e.cast).split(",")
 
@@ -355,7 +384,7 @@ function setGraph3() {
 
 			for (let i = 0; i < actors_in_mov.length; i++) {
 			    for (let j = i + 1; j < actors_in_mov.length; j++) {
-			      actor_links.push({"source": id_map[actors_in_mov[i]], "target": id_map[actors_in_mov[j]]});
+			      actor_links.push({"source": id_map[actors_in_mov[i].trim()], "target": id_map[actors_in_mov[j].trim()]});
 			    }
 			}
 		})
@@ -364,6 +393,71 @@ function setGraph3() {
 		for (const [name, id] of Object.entries(id_map)) {
 			actor_nodes.push({"id": id, "name": name})
 		}
+
+
+  let link = svg3
+    .selectAll("line")
+    .data(actor_links)
+    
+    let linkEnter = link.enter()
+    .append("line")
+    .style("stroke", "#aaa")
+
+    let mouseover = function(d) {
+            let html = `${d.name}<br/>`; 
+            console.log(d.name)
+
+            tooltip3.html(html)
+                .style("left", `${(d3.event.pageX) - 300}px`)
+                .style("top", `${(d3.event.pageY) - 1100}px`)
+                .style("fill", "white")
+                .style("box-shadow", `2px 2px 5px white`) 
+                .transition()
+                .duration(200)
+                .style("opacity", 100)
+        };
+
+        let mouseout = function(d) {
+            tooltip3.transition()
+                .duration(200)
+                .style("opacity", 0);
+        };
+
+
+  let node = svg3
+    .selectAll("circle")
+    .data(actor_nodes)
+
+    let nodeEnter = node.enter()
+    .append("circle")
+    .on("mouseover", mouseover) 
+    .on("mouseout", mouseout)
+      .attr("r", 5)
+      .style("fill", () => {return randomBlue()})
+      .attr("r", 5)
+
+  var simulation = d3.forceSimulation(actor_nodes)                
+      .force("link", d3.forceLink(actor_links).id(d => d.id))
+      .force("charge", d3.forceManyBody())        
+      .force("center", d3.forceCenter(graph_3_width *.12, graph_3_height *.45))   
+      .force("x", d3.forceX())
+     .force("y", d3.forceY())  
+     .on("tick", function(){
+     linkEnter
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+     nodeEnter
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y);
+    });
+
+        link.exit().remove();
+        node.exit().remove();  
+
+
 	})
 }
 
@@ -391,6 +485,56 @@ function setYear(){
 }
 
 
+function setDropdownOptions() {
+    d3.csv("../data/netflix.csv").then(function(data) {
+    genre_lists = []
+        data.map(function(e) {
+            all_genres = e.listed_in.split(",")
+                for(let i = 0; i < all_genres.length; i++){
+                    g = all_genres[i].trim()
+                        if(g in genre_lists){
+                            genre_lists[g].push(e.title)
+                        }
+                        else{
+                            genre_lists[g] = [e.title]
+                        }
+                }
+        })
+    country_lists = []
+        data.map(function(e) {
+            all_countries = e.country.split(",")
+                for(let i = 0; i < all_countries.length; i++){
+                    g = all_countries[i].trim()
+                        if(g in country_lists){
+                            country_lists[g].push(e.country_lists)
+                        }
+                        else{
+                            country_lists[g] = [e.country_lists]
+                        }
+                }
+        })
+
+
+        // setting up genre dropdown
+    var genreDrop = document.getElementById("genre")
+    for(const genre in genre_lists) {
+        var option = document.createElement('option');
+        option.text = option.value = genre;
+        genreDrop.add(option, 0);
+    }
+         // setting up country dropdown
+    var genreDrop = document.getElementById("country")
+    for(const country in country_lists) {
+        var option = document.createElement('option');
+        option.text = option.value = country;
+        genreDrop.add(option, 0);
+    } 
+
+    })
+}
+
 setGraph1(current_type);
 setGraph2(current_type);
 setGraph3();
+setDropdownOptions();
+
