@@ -74,17 +74,43 @@ Please limit the number of nodes by filtering the titles considered: <br>
     </div>
     <hr>
     <div class="row text-center">
+        <div class="col-md-4">
         <h4> Describe how your dashboard answers the questions presented</h4>
-                hi
+                My first graph communicates the number of titles per genre on netflix in a bar graph, where each bar represents a different genre, and its length is proportional to the number of titles listed in that genre. <br><br>
+                Likewise, my second graph communicates the average runtime of movies by release year on netflix in a bar graph, where each bar represents a different release year, and its length is proportional to the runtime of movies from that year. It also provides this information in seasons for TV shows, in a separate graph, as additional information. <br><br>
+                My final graph communicates actor pairs by representing actors as nodes and movies they acted in together as edges. One can filter the data by several factors using drop downs since there are an abundence of data points that may be interesting here.
+        </div>
+        <div class="col-md-4">
         <h4> List 3 reasons why D3 was helpful and improved your visualization</h4>
-                hi
+                1. D3 made it really easy to populate CSV data into the dashboard, easy enough that even if the data was updating at a regular interval at some endpoint the process would be just as simple and yield just as satisfying results <br>
+                2. D3 made it easy to make the visualizations pretty, with the gradient scale for the bar chart and the random color for the node.  <br>
+                3. D3 gave a lot of granular access to how each individual component of a graph should behave: in particular, being able to map over the data while constructing bars / nodes was super slick and made things easy to customize.
+            </div>
+                  <div class="col-md-4">
         <h4> List 3 reasons why D3 would not be the best tool for creating a visualization </h4>
-                hi
+                1. When making something especially simple, D3 doesn't seem quite the best tool, since it's built to have very powerful capabilities, but has some features that would be unnecessary for a very simple plot. <br>Along a similar vein, if you are making a visualization that must be easily updated and understood by future engineers (you are not the only person modifying this code), perhaps D3 isn't the best choice since it can get complicated and is not the easiest to pick up or read.<br>
+                2. D3 really shone at creating multiple components that looked and behaved the same like bars, nodes, etc. If a data scientist wanted to create something heavily artistic / aesthetic with many varying components, D3 may not be the right tool for them. <br>
+                3. Finally, if you would like to make something static, you should likely use a tool other than D3 so that you can export your visual in full quality and statically serve it as an image since D3 requires a server.
+          </div>
+
+          </div>
+
+
+        <div class="row text-center">
+        <div class="col-md-4">
+
         <h4> Evaluate the accessibility of your dashboard </h4>
-                hi
+                My dashboard is only somewhat accessible, unfortunately. When it comes to colors and content, I think it does a decent job. However, I'm not sure if a blind person would be able to navigate the page very well. For instance, even though there are labels on the bar chart, it definitely would not be straightforward to get through this information with a screen reader. Furthermore, if you are blind there is just about no good way to get the informaton from the network graph at all. Finally, the second article encourages you to "Avoid hover overlays." Unfortunately, I use these in all my graphs! They provide extra information rather than the central answer to the question in all three cases (and they were one of the requirements for this project). Still, this has definitely given me something to think about in terms of making my work maximally accessible.<br>
+                In good news, I think my colors (used as a supplement, rather than to communicate anything crucial), contrast, and lack of animation do a pretty good job under the article's header of "Design equivalent experiences for all your readers." I also found it interesting that the second article said that SVG is more accessible (in general) than HTML is. 
+            </div>
+                  <div class="col-md-4">
         <h4> Reflect on the stages of your design and implementation process when you could have taken steps to make your dashboard more accessible to all audiences </h4>
-                hi
-    </div>
+            I definitely had to go back and make some of the buttons on my dashboard clearer. Some things that felt intuitive to me when I was making them did not make sense once I took a step back and looked at the dashboard as a consumer. Something that kept me from making these labels clearer in the moment were a lack of distance and a focus on content rather than clarity. When it comes to the network graph,  something I could have done is generate textual information to accompany it, that can be read out loud (i.e. with a screen reader). Similarly, I could create labels on the bar graphs that are more descriptive. I was kept from doing both these things by a lack of time and experience with the tools for making my site most navigable.
+          </div>
+
+          </div>
+
+    
     <hr/>
     <!--Feel free to add more JavaScript files as needed-->
     <script type="text/javascript" src="main.js"></script>
